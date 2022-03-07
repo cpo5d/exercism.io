@@ -1,36 +1,23 @@
 class Matrix:
     def __init__(self, matrix_string):
-        self.matrix_string = matrix_string
-        # split the provided matrix string so that it looks like ["1 2","3 4"]
-        split_matrix_string = self.matrix_string.split("\n")
         self.matrix = []
-        # for each element in the list above, create a row in the matrix
-        for i in range(len(split_matrix_string)):
-            row = []
-            for j in range(len(split_matrix_string[i].split(" "))):
-                # split the element in split_matrix_strix into individual items and convert to int before appending to row
-                row.append(int(split_matrix_string[i].split(" ")[j]))
-            self.matrix.append(row)
+        # for each element in a list of the matrix elements split by \n, create a row in the matrix
+        for r in matrix_string.splitlines():
+            # assemble each row in the matrix by iterating through the values in the split row string
+            self.matrix.append([int(c) for c in r.split()])
 
     def row(self, index):
-        # check if the index given is valid
-        if index <= len(self.matrix):
+        # try to return the called for row if it exists
+        try:
             return self.matrix[index - 1]
         # if the index given is not valid, return None
-        else:
+        except IndexError:
             return None
 
     def column(self, index):
-        matrix_column = []
-        i = 1
-        # check if the index given is valid
-        if index <= len(self.row(i)):
-            # iterate through the rows of the matrix
-            while self.row(i) is not None:
-                # add the index-th item of the row to the column list after converting to int
-                matrix_column.append(int(self.row(i)[index - 1]))
-                i += 1
-            return matrix_column
+        try:
+            # return a list of the correct column index in each row
+            return [row[index-1] for row in self.matrix]
         # if the index given is not valid, return None
-        else:
+        except IndexError:
             return None
